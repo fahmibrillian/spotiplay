@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::get('/login/spotify', 'LoginController@redirectToSpotifyProvider');
 Route::get('/login/spotify/callback', 'LoginController@handleSpotifyProviderCallback');
 Route::get('/spotify', 'SpotifyController@get_access_token');

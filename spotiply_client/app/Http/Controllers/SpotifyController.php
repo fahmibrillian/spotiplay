@@ -43,6 +43,7 @@ class SpotifyController extends Controller
             $msg = json_encode([
                 'track_id' => $track['id'],
                 'track_name' => $track['name'],
+                'artist' => $track['artists'][0]['name'],
                 'album_image' => $track['album']['images'][0]['url'],
                 'danceability' => $track['audio_features']['danceability'],
                 'energy' => $track['audio_features']['energy'],
@@ -62,6 +63,11 @@ class SpotifyController extends Controller
             $rk->poll(0);
         }
         $rk->flush(1000);
+
+        $data['tracks'] = $tracks['items'];
+        // dd($data);
+
+        return view('latest', $data);
 
     }
 }

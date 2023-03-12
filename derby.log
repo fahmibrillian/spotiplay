@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sun Mar 12 06:39:58 WIB 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0186-d30b-953c-000017a85e88 
+on database directory /home/bigdata/spotiplay/metastore_db with class loader org.apache.spark.sql.hive.client.IsolatedClientLoader$$anon$1@578065bf 
+Loaded from file:/home/bigdata/spark-2.4.7-bin-hadoop2.7/jars/derby-10.12.1.1.jar
+java.vendor=Private Build
+java.runtime.version=1.8.0_282-8u282-b08-0ubuntu1~18.04-b08
+user.dir=/home/bigdata/spotiplay
+os.name=Linux
+os.arch=amd64
+os.version=5.3.0-40-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

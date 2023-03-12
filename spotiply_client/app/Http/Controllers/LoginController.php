@@ -31,6 +31,12 @@ class LoginController extends Controller
 
         return redirect('/spotify');
     }
+
+    public function logout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect('/');
+    }
 }
 
 ?>

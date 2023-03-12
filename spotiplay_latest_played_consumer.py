@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import from_json, col
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType
+from pyspark.sql.functions import current_timestamp
 
 spark = SparkSession.builder \
     .appName("SpotifyStreaming") \
@@ -11,6 +12,7 @@ spark = SparkSession.builder \
 schema = StructType([
     StructField("track_id", StringType()),
     StructField("track_name", StringType()),
+    StructField("artist_name", StringType()),
     StructField("album_image", StringType()),
     StructField("danceability", DoubleType()),
     StructField("energy", DoubleType()),
@@ -34,6 +36,9 @@ df = spark.readStream \
     .select(from_json(col("value").cast("string"), schema).alias("data")) \
     .selectExpr("data.*")
     
+#add timestamp
+df = df.withColumn("timestamp", current_timestamp())
+    
 
 # Print the streaming DataFrame to the console
 # query = df.writeStream \
@@ -43,11 +48,17 @@ df = spark.readStream \
     
 df.createOrReplaceTempView("songs")
 songs = spark.sql("SELECT * FROM songs")
-query = songs \
-        .writeStream \
-        .outputMode("update") \
-        .format("memory") \
-        .queryName("latest_played") \
-        .start()
+# query = songs.writeStream \
+#     .format("memory") \
+#     .queryName("latest_played") \
+#     .outputMode("append") \
+#     .start()
+query = songs.writeStream \
+    .format("parquet") \
+    .option("path", "/home/bigdata/spotiplay/data") \
+    .option("checkpointLocation", "/home/bigdata/spotiplay/checkpoint") \
+    .queryName("latest_played") \
+    .outputMode("append") \
+    .start()
 
 query.awaitTermination()
