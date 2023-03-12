@@ -66,6 +66,13 @@ class SpotifyController extends Controller
 
         $data['tracks'] = $tracks['items'];
         // dd($data);
+        $conf->set('group.id', 'recomendations');
+        $consumer = new \RdKafka\KafkaConsumer($conf);
+        $consumer->subscribe(['recommendations']);
+        $message = $consumer->consume(1*1000);
+        $data['recommendations'] = json_decode($message->payload, true);
+
+        dd($data['recommendations']);
 
         return view('latest', $data);
 
