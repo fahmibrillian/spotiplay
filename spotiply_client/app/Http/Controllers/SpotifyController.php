@@ -66,13 +66,27 @@ class SpotifyController extends Controller
 
         $data['tracks'] = $tracks['items'];
         // dd($data);
-        // $conf->set('group.id', 'recomendations');
-        // $consumer = new \RdKafka\KafkaConsumer($conf);
-        // $consumer->subscribe(['recommendations']);
-        // $message = $consumer->consume(1*1000);
-        // $data['recommendations'] = json_decode($message->payload, true);
+        $conf = new \RdKafka\Conf();
+        $conf->set('metadata.broker.list', 'localhost:9092');
+        $rk = new \RdKafka\Consumer($conf);
+        $rk->addBrokers("localhost:9092");
+        $topic = $rk->newTopic("recommendations");
+        $topic->consumeStart(0, RD_KAFKA_OFFSET_BEGINNING);
+        $msg = $topic->consume(0, 1000);
+        $msg = json_decode($msg->payload, true);
+        $rec = [];
+        //get session
 
-        // dd($data['recommendations']);
+        $session = session('rec');
+        foreach($session as $i => $track) {
+            $rec[] = $session[$i];
+        }
+        foreach($msg as $i => $track) {
+            $rec[] = $msg[$i];
+        }
+        // add to session
+        session(['rec' => $rec]);
+        $data['rec'] = $rec;
 
         return view('latest', $data);
 
