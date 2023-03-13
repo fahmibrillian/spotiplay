@@ -77,16 +77,24 @@ class SpotifyController extends Controller
         $rec = [];
         //get session
 
-        // $session = session('rec');
-        // foreach($session as $i => $track) {
-        //     $rec[] = $session[$i];
-        // }
-        // foreach($msg as $i => $track) {
-        //     $rec[] = $msg[$i];
-        // }
-        // // add to session
-        // session(['rec' => $rec]);
-        // $data['rec'] = $rec;
+        //delete session
+        // session()->forget('rec');
+
+        $session = session('rec');
+        $session = json_decode($session, true);
+
+        if($session == null) {
+            $session = [];
+        }
+        foreach($session as $i => $track) {
+            $rec[] = $track;
+        }
+        foreach($msg as $i => $track) {
+            $rec[] = $track;
+        }
+        // add to session
+        session(['rec' => $rec]);
+        $data['rec'] = $rec;
 
         return view('latest', $data);
 
