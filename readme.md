@@ -78,7 +78,7 @@ Untuk menginstal Apache Kafka, jalankan perintah:
 
   
 
-```
+```bash
 sudo apt install librdkafka-dev 
 
 sudo apt install php-dev php-pear 
@@ -122,7 +122,7 @@ bash
 
 ```bash
 
-spark-shell  --packages  org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.7
+spark-shell --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.7, org.mongodb.spark:mongo-spark-connector_2.11:2.4.1
 
 ```
 
