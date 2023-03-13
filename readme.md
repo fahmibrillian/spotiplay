@@ -78,7 +78,11 @@ Untuk menginstal Apache Kafka, jalankan perintah:
 
   
 
-`sudo apt install librdkafka-dev sudo apt install php-dev php-pear sudo pecl install rdkafka`
+`
+sudo apt install librdkafka-dev 
+sudo apt install php-dev php-pear 
+sudo pecl install rdkafka
+`
 
   
 
