@@ -67,6 +67,31 @@ sudo  apt  install  php  libapache2-mod-php  php-cli
 
 Setelah itu, jalankan perintah `composer update` pada folder `spotiply_client`. Kemudian, copy file `.env.example` menjadi `.env` dan generate key dengan perintah `php artisan key:generate`. Terakhir, jalankan laravel dengan perintah `php artisan serve`.
 
+#### Tambahkan .env untuk konfigurasi spotify Oauth
+
+Berikut adalah langkah-langkah untuk menambahkan environment:
+
+    
+1.  Buka file `.env` dengan perintah `nano .env`.
+    
+2.  Tambahkan environment variable baru dengan format `NAMA_VARIABLE=isi_variable`.
+    
+    Dalam kasus ini, tambahkan:
+    
+    makefile
+    
+    ```makefile
+    SPOTIFY_CLIENT_ID=<client_id>
+    SPOTIFY_CLIENT_SECRET=<client_secret>
+    SPOTIFY_REDIRECT_URI=http://127.0.0.1:8000/login/spotify/callback
+    ```
+
+    * client_id dan client_secret dapat didapatkan dari [https://developer.spotify.com/dashboard/applications](https://developer.spotify.com/dashboard/applications)
+    
+3.  Simpan file dengan menekan Ctrl + X dan kemudian tekan Y dan Enter untuk menyimpan perubahan.
+    
+4.  Pastikan untuk menjalankan perintah `php artisan config:clear` untuk menghapus cache konfigurasi dan memuat ulang variabel lingkungan baru.
+
   
 
 ### Instalasi MongoDB
