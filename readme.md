@@ -65,7 +65,7 @@ sudo  apt  install  php  libapache2-mod-php  php-cli
 
   
 
-Setelah itu, jalankan perintah `composer update` pada folder `spotiply_client`. Kemudian, copy file `.env.example` menjadi `.env` dan generate key dengan perintah `php artisan key:generate`. Terakhir, jalankan laravel dengan perintah `php artisan serve`.
+Setelah itu, jalankan perintah `composer update` pada folder `spotiply_client`. Kemudian, copy file `.env.example` menjadi `.env` dan generate key dengan perintah `php artisan key:generate`. 
 
 #### Tambahkan .env untuk konfigurasi spotify Oauth
 
@@ -92,7 +92,7 @@ Berikut adalah langkah-langkah untuk menambahkan environment:
     
 4.  Pastikan untuk menjalankan perintah `php artisan config:clear` untuk menghapus cache konfigurasi dan memuat ulang variabel lingkungan baru.
 
-  
+Terakhir, jalankan laravel dengan perintah `php artisan serve`.  
 
 ### Instalasi MongoDB
 
