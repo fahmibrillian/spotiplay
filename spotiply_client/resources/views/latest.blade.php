@@ -122,7 +122,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="table col-6">
+                    {{-- <div class="table col-6">
                         <h3>Recomendation Tracks</h1>
                         <table class="m-l-20">
                             <thead>
@@ -138,7 +138,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
