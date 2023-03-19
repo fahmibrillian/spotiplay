@@ -68,6 +68,14 @@
             .m-l-20 {
                 margin-left: 60px;
             }
+
+            .col-6 {
+                width: 50%;
+            }
+
+            .row {
+                display: flex;
+            }
         </style>
     </head>
     <body>
@@ -81,38 +89,56 @@
                 <div class="title m-b-md" style="color: #1DB954">
                     Spotiplay
                 </div>
-
-                <div class="table">
-                    <h3>Latest Tracks</h1>
-                    <table class="m-l-20">
-                        <thead>
-                            <tr>
-                                <th>Track</th>
-                                <th>Artist</th>
-                                <th>Duration</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($tracks as $track)
+                <div class="row">
+                    <div class="table col-6">
+                        <h3>Latest Tracks</h1>
+                        <table class="m-l-20">
+                            <thead>
                                 <tr>
-                                    <td>{{$track['track']['name']}}</td>
-                                    <td>
-                                        @foreach ($track['track']['artists'] as $artist)
-                                            {{$artist['name']}}<br>
-                                        @endforeach
-                                    </td>
-                                    <td>
-                                        @php
-                                            $minutes = floor($track['track']['duration_ms'] / 60000);
-                                            $seconds = floor(($track['track']['duration_ms'] % 60000) / 1000);
-                                        @endphp
-                                        {{-- add 0 if minutes of second is single digit --}}
-                                        {{str_pad($minutes, 2, '0', STR_PAD_LEFT)}}:{{str_pad($seconds, 2, '0', STR_PAD_LEFT)}}
-                                    </td>
+                                    <th>Track</th>
+                                    <th>Artist</th>
+                                    <th>Duration</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($tracks as $track)
+                                    <tr>
+                                        <td>{{$track['track']['name']}}</td>
+                                        <td>
+                                            @foreach ($track['track']['artists'] as $artist)
+                                                {{$artist['name']}}<br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @php
+                                                $minutes = floor($track['track']['duration_ms'] / 60000);
+                                                $seconds = floor(($track['track']['duration_ms'] % 60000) / 1000);
+                                            @endphp
+                                            {{-- add 0 if minutes of second is single digit --}}
+                                            {{str_pad($minutes, 2, '0', STR_PAD_LEFT)}}:{{str_pad($seconds, 2, '0', STR_PAD_LEFT)}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table col-6">
+                        <h3>Recomendation Tracks</h1>
+                        <table class="m-l-20">
+                            <thead>
+                                <tr>
+                                    <th>Track</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($rec as $track)
+                                    <tr>
+                                        <td>{{$track}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

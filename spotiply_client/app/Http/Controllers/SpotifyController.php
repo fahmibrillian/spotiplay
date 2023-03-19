@@ -66,35 +66,39 @@ class SpotifyController extends Controller
 
         $data['tracks'] = $tracks['items'];
         // dd($data);
-        $conf = new \RdKafka\Conf();
-        $conf->set('metadata.broker.list', 'localhost:9092');
-        $rk = new \RdKafka\Consumer($conf);
-        $rk->addBrokers("localhost:9092");
-        $topic = $rk->newTopic("recommendations");
-        $topic->consumeStart(0, RD_KAFKA_OFFSET_BEGINNING);
-        $msg = $topic->consume(0, 1000);
-        $msg = json_decode($msg->payload, true);
-        $rec = [];
+        // $conf = new \RdKafka\Conf();
+        // $conf->set('metadata.broker.list', 'localhost:9092');
+        // $rk = new \RdKafka\Consumer($conf);
+        // $rk->addBrokers("localhost:9092");
+        // $topic = $rk->newTopic("recommendations");
+        // $topic->consumeStart(0, RD_KAFKA_OFFSET_BEGINNING);
+        // $msg = $topic->consume(0, 1000);
+        // $msg = json_decode($msg->payload, true);
+        // $rec = [];
         //get session
 
         //delete session
-        // session()->forget('rec');
+        //session()->forget('rec');
 
-        $session = session('rec');
-        $session = json_decode($session, true);
+        // $session = session('rec');
 
-        if($session == null) {
-            $session = [];
-        }
-        foreach($session as $i => $track) {
-            $rec[] = $track;
-        }
-        foreach($msg as $i => $track) {
-            $rec[] = $track;
-        }
+        // if($session == null) {
+            // $session = [];
+        // }
+        // foreach($session as $i => $track) {
+        //     $rec[] = $track;
+        // }
+        // foreach($msg as $i => $track) {
+        //     $rec[] = $track;
+        // }
+
+        //remove duplicates
+        // $rec = array_unique($rec, SORT_REGULAR);
+
         // add to session
-        session(['rec' => $rec]);
-        $data['rec'] = $rec;
+        // session(['rec' => $rec]);
+        // $rec = [];
+        // $data['rec'] = $rec;
 
         return view('latest', $data);
 
