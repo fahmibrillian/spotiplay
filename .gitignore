@@ -1,3 +1,6 @@
 /data
 /checkpoint
 /metastore_db
+/model
+/spark-warehouse
+/tracks_clustered

@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         //
+        \App\Console\Commands\SaveRecCommand::class,
+        \App\Console\Commands\SaveCharaCommand::class,
     ];
 
     /**

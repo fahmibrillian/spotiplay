@@ -15,19 +15,8 @@ sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 
 genres = [
-    'indonesian indie',
-    'indonesian pop',
-    'indonesian r&b',
-    'indonesian rock',
-    'indonesian hip hop',
-    'indonesian electronic',
-    'indonesian jazz',
-    'indonesian folk',
-    'indonesian reggae',
-    'indonesian metal',
-    'indonesian punk',
-    'indonesian alternative',
-    'indonesian acoustic',
+    'indonesian top hits',
+    'indonesia'
 ]
 
 # get tracks from Spotify API and publish to Kafka topic
@@ -35,7 +24,7 @@ while True:
     for genre in genres:
         #incremental offset
         offset = 0
-        while offset < 500:
+        while offset < 1000:
             results = sp.search(q='genre:' + genre, type='track', limit=50, offset=offset)
             if(len(results['tracks']['items']) == 0):
                 break

@@ -185,3 +185,13 @@ Kemudian, copy file `kafka-clients-2.7.0.jar` dari folder Kafka ke folder `spark
 ### Jalankan Notebook
 Buka dan jalankan Spotiplay.ipynb di vscode untuk penggunaan environtment project
 <img src="https://i.ibb.co/Lx4VBKZ/Screenshot-1.jpg" alt="Screenshot-1" border="0">
+
+
+### Jalankan Service Spotify Recommendation
+```bash
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.7, org.mongodb.spark:mongo-spark-connector_2.11:2.4.1 production.py
+
+```
+
+```

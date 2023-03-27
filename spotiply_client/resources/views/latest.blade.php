@@ -76,6 +76,11 @@
             .row {
                 display: flex;
             }
+
+            /* Content margin top 20px */
+            .content {
+                margin-top: 20px;
+            }
         </style>
     </head>
     <body>
@@ -122,25 +127,91 @@
                             </tbody>
                         </table>
                     </div>
-                    {{-- <div class="table col-6">
+                    <div class="table col-6">
                         <h3>Recomendation Tracks</h1>
                         <table class="m-l-20">
                             <thead>
                                 <tr>
                                     <th>Track</th>
+                                    <th>Recommendation</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($rec as $track)
+                                @foreach ($rec as $key => $tracks)
                                     <tr>
-                                        <td>{{$track}}</td>
+                                        <td>{{$key}}</td>
+                                        <td>
+                                            @foreach ($tracks as $key => $track)
+                                            @if ($key == 5)
+                                                @php
+                                                    break;
+                                                @endphp
+                                            @endif
+                                                {{$track['name']}}<br>
+                                            @endforeach
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    </div> --}}
+                    </div>
+                    <div class="table col-6">
+                        <h3>Your Characteristic</h1>
+                        <div id="chart"></div>
+                    </div>
                 </div>
             </div>
         </div>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+        <script>
+            var options = {
+            fill: {
+                opacity: 0.5,
+                colors: ['#1DB954']
+            },
+            stroke: {
+                width: 1,
+                colors: ['#1DB954']
+            },
+            markers: {
+                enabled: true,
+                size: 4,
+                colors: ['#1DB954'],
+                strokeColor: '#1DB954',
+                strokeWidth: 2,
+            },
+            chart: {
+                type: 'radar',
+            },
+            series: [
+                {
+                name: "Characteristic",
+                data: [
+                    @foreach ($chara as $key => $value)
+                        {{$value}},
+                    @endforeach
+                ]
+                },
+            ],
+            labels: ['Danceability', 'Energy', 'Speechiness', 'Acousticness', 'Instrumentalness', 'Liveness'],
+            yaxis: {
+                show: true,
+                min: 0,
+                max: 1,
+                tickAmount: 5,
+                labels: {
+                    show: true,
+                    formatter: function (val) {
+                        return val.toFixed(2);
+                    },
+                },
+            },
+            }
+
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+            chart.render();
+        </script>
     </body>
 </html>

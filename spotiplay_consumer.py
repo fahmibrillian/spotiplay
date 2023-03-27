@@ -13,4 +13,6 @@ consumer = KafkaConsumer('spotify_tracks', bootstrap_servers=['localhost:9092'])
 # insert tracks into MongoDB
 for message in consumer:
     track = json.loads(message.value.decode('utf-8'))
-    collection.insert_one(track)
+    # insert if id is not 
+    if collection.find_one({'id': track['id']}) is None:
+        collection.insert_one(track)

@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 
 use Laravel\Socialite\Facades\Socialite;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 
 class SpotifyController extends Controller
 {
-    public function get_access_token()
+    public function get_access_token(Request $request)
     {
         $conf = new \RdKafka\Conf();
         // get the access token from the session
@@ -38,8 +39,7 @@ class SpotifyController extends Controller
             $audio_feature = $client->request('GET', 'audio-features/' . $track['id']);
             $track['audio_features'] = json_decode($audio_feature->getBody(), true);
 
-
-            //sent to kafka topic 'spotify tracks'
+            //only send the latest track
             $msg = json_encode([
                 'track_id' => $track['id'],
                 'track_name' => $track['name'],
@@ -65,42 +65,35 @@ class SpotifyController extends Controller
         $rk->flush(1000);
 
         $data['tracks'] = $tracks['items'];
-        // dd($data);
-        // $conf = new \RdKafka\Conf();
-        // $conf->set('metadata.broker.list', 'localhost:9092');
-        // $rk = new \RdKafka\Consumer($conf);
-        // $rk->addBrokers("localhost:9092");
-        // $topic = $rk->newTopic("recommendations");
-        // $topic->consumeStart(0, RD_KAFKA_OFFSET_BEGINNING);
-        // $msg = $topic->consume(0, 1000);
-        // $msg = json_decode($msg->payload, true);
-        // $rec = [];
-        //get session
 
-        //delete session
-        //session()->forget('rec');
+        // Apply the web middleware to persist session data across requests
+        $this->middleware('web');
 
-        // $session = session('rec');
+        // Access the session variable
+        $chara = Cache::get('chara');
+        $rec = Cache::get('rec');
+        $data['rec'] = $rec;
+        //reverse the array so that the latest track is on top
+        if ($data['rec'] != null)
+            $data['rec'] = array_reverse($data['rec']);
 
-        // if($session == null) {
-            // $session = [];
-        // }
-        // foreach($session as $i => $track) {
-        //     $rec[] = $track;
-        // }
-        // foreach($msg as $i => $track) {
-        //     $rec[] = $track;
-        // }
+        //only show the top 5 recommendations
+        if ($data['rec'] != null)
+            $data['rec'] = array_slice($data['rec'], 0, 5);
 
-        //remove duplicates
-        // $rec = array_unique($rec, SORT_REGULAR);
+        if ($data['rec'] == null)
+            $data['rec'] = [];
 
-        // add to session
-        // session(['rec' => $rec]);
-        // $rec = [];
-        // $data['rec'] = $rec;
+        if ($chara != null){
+            foreach($chara as $key => $value)
+                $data['chara'][$key] = number_format($value, 2);
+            $data['chara'] = [$chara['danceability'], $chara['energy'], $chara['speechiness'], $chara['acousticness'], $chara['instrumentalness'], $chara['liveness']];
+        }
+        else
+            $data['chara'] = [0,0,0,0,0,0];
 
         return view('latest', $data);
 
     }
+
 }
